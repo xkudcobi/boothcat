@@ -181,7 +181,7 @@ function decorate(ctx, frame, W, H) {
 /**
  * Render a photo strip and return a JPEG data URL.
  * @param {string[]} photos  four data URLs
- * @param {{filter:string, frame:string, caption?:string, showDate?:boolean}} opts
+ * @param {{filter:string, frame:string, caption?:string, showDate?:boolean, locale?:string}} opts
  */
 export async function renderStrip(photos, opts) {
   const frame = getFrame(opts.frame)
@@ -217,7 +217,7 @@ export async function renderStrip(photos, opts) {
   if (opts.showDate !== false) {
     ctx.font = '16px "Space Mono", monospace'
     ctx.globalAlpha = 0.7
-    const date = new Date().toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })
+    const date = new Date().toLocaleDateString(opts.locale || undefined, { year: 'numeric', month: 'short', day: 'numeric' })
     ctx.fillText(date, W / 2, H - 32)
   }
 

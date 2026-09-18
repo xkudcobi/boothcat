@@ -1,27 +1,22 @@
 import { Link } from 'react-router-dom'
 import { Strip, Sparkle, Heart, Lock, Bolt, Palette, Printer } from '../components/Art.jsx'
+import { useI18n } from '../lib/i18n.jsx'
 
-const PERKS = [
-  { Icon: Lock, title: 'Nothing leaves your device', text: 'Photos are processed with the canvas API and kept in your browser. No uploads, no accounts.' },
-  { Icon: Bolt, title: 'Four shots, ten seconds', text: 'A countdown, a flash, and a strip. It feels like the real thing, minus the coins.' },
-  { Icon: Palette, title: 'Filters and frames', text: 'Eight film-inspired filters and ten frames drawn on the fly, from plain white to hearts and stars.' },
-  { Icon: Printer, title: 'Print-ready strip', text: 'Download a high-resolution JPEG sized like a classic 2×6 booth strip.' },
-]
+const PERK_ICONS = [Lock, Bolt, Palette, Printer]
 
 export default function Home() {
+  const { t } = useI18n()
   return (
     <>
       <section className="container hero">
         <div>
           <h1>
-            A photo booth <em>in your browser.</em>
+            {t('home.titleA')} <em>{t('home.titleB')}</em>
           </h1>
-          <p className="lead muted">
-            Snap four photos with your webcam or upload your own, pick a filter and a frame, and download a strip you can print, share or stick on the fridge.
-          </p>
+          <p className="lead muted">{t('home.lead')}</p>
           <div className="row">
-            <Link to="/start" className="btn big">Start the booth</Link>
-            <Link to="/features" className="btn ghost">See what it does</Link>
+            <Link to="/start" className="btn big">{t('home.start')}</Link>
+            <Link to="/features" className="btn ghost">{t('home.see')}</Link>
           </div>
         </div>
         <div className="hero-art">
@@ -33,24 +28,26 @@ export default function Home() {
       </section>
 
       <section className="container page">
-        <h2 className="center">How it works</h2>
+        <h2 className="center">{t('home.how')}</h2>
         <div className="steps">
-          <div className="card step"><h3>Choose a source</h3><p className="muted">Live camera or four pictures from your gallery.</p></div>
-          <div className="card step"><h3>Take the shots</h3><p className="muted">A 3-second countdown fires four times. Pick a filter while you pose.</p></div>
-          <div className="card step"><h3>Frame it</h3><p className="muted">Pick one of ten frames and add a caption.</p></div>
-          <div className="card step"><h3>Download</h3><p className="muted">Grab the strip as a JPEG and print it anywhere.</p></div>
+          {t('home.steps').map(([title, text]) => (
+            <div key={title} className="card step"><h3>{title}</h3><p className="muted">{text}</p></div>
+          ))}
         </div>
       </section>
 
       <section className="container page">
         <div className="features">
-          {PERKS.map(({ Icon, title, text }) => (
-            <div key={title} className="card feature">
-              <Icon className="feature-icon" />
-              <h3>{title}</h3>
-              <p className="muted">{text}</p>
-            </div>
-          ))}
+          {t('home.perks').map(([title, text], i) => {
+            const Icon = PERK_ICONS[i]
+            return (
+              <div key={title} className="card feature">
+                <Icon className="feature-icon" />
+                <h3>{title}</h3>
+                <p className="muted">{text}</p>
+              </div>
+            )
+          })}
         </div>
       </section>
     </>

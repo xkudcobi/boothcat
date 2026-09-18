@@ -1,6 +1,7 @@
 import { Component } from 'react'
 
 // Last line of defence: instead of an empty page, show what went wrong.
+// Kept free of hooks/context so it still renders if a provider is what broke.
 export default class ErrorBoundary extends Component {
   state = { error: null }
 

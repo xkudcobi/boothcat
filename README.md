@@ -14,6 +14,7 @@ A photo booth that runs entirely in your browser. Snap four photos with your web
 - **10 frames** — drawn procedurally on the canvas (hearts, stars, doodles, film sprockets, a cat…), no image assets
 - **Caption + date** — printed on the strip footer
 - **Print-ready** — 600×1832 JPEG, the proportions of a classic 2×6″ strip
+- **English / Turkish** — auto-detected from the browser, switchable from the header
 - **Private** — photos live in `localStorage` only; nothing is uploaded
 
 ## Stack
@@ -40,6 +41,7 @@ src/
     filters.js    filter presets
     frames.js     frame presets
     storage.js    localStorage wrapper
+    i18n.jsx      language context; strings live in src/locales/
   components/     layout, shared UI, inline SVG illustrations
   pages/          one file per route
   styles/

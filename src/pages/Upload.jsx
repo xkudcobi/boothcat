@@ -4,9 +4,11 @@ import { store } from '../lib/storage.js'
 import { fileToDataUrl } from '../lib/strip.js'
 import FilterPicker from '../components/FilterPicker.jsx'
 import { getFilter } from '../lib/filters.js'
+import { useI18n } from '../lib/i18n.jsx'
 
 export default function Upload() {
   const nav = useNavigate()
+  const { t } = useI18n()
   const [photos, setPhotos] = useState(() => store.getPhotos())
   const [filter, setFilter] = useState(() => store.getFilter())
   const [busy, setBusy] = useState(false)
@@ -23,7 +25,7 @@ export default function Upload() {
       setPhotos(next)
       store.setPhotos(next)
     } catch {
-      setError('One of those files could not be read. Try a JPEG or PNG.')
+      setError(t('upload.error'))
     } finally {
       setBusy(false)
       e.target.value = ''
@@ -41,29 +43,33 @@ export default function Upload() {
     nav('/frames')
   }
 
+  const label = photos.length >= 4 ? t('upload.full') : busy ? t('upload.reading') : t('upload.tap')
+
   return (
     <section className="container page">
-      <h1 className="center">Pick <em>four</em> photos</h1>
+      <h1 className="center">
+        {t('upload.titleA')} <em>{t('upload.titleB')}</em> {t('upload.titleC')}
+      </h1>
       <div className="booth">
         <div className="stack">
           <label className="card choice" style={{ padding: 28 }}>
             <input type="file" accept="image/*" multiple onChange={onFiles} className="sr-only" disabled={busy || photos.length >= 4} />
-            <h3>{photos.length >= 4 ? 'All four slots are full' : busy ? 'Reading…' : 'Tap to choose images'}</h3>
-            <span className="muted">Landscape shots work best. {4 - photos.length} left.</span>
+            <h3>{label}</h3>
+            <span className="muted">{t('upload.hint')} {4 - photos.length} {t('upload.left')}</span>
           </label>
           {error && <p className="muted">{error}</p>}
           <div className="thumbs">
             {[0, 1, 2, 3].map((i) => (
-              <div key={i} className="slot" onClick={() => photos[i] && remove(i)} title={photos[i] ? 'Remove' : ''}>
-                {photos[i] ? <img src={photos[i]} alt={`Photo ${i + 1}`} style={{ filter: getFilter(filter).css }} /> : `#${i + 1}`}
+              <div key={i} className="slot" onClick={() => photos[i] && remove(i)}>
+                {photos[i] ? <img src={photos[i]} alt={`#${i + 1}`} style={{ filter: getFilter(filter).css }} /> : `#${i + 1}`}
               </div>
             ))}
           </div>
-          <p className="muted center" style={{ fontSize: '0.95rem' }}>Click a thumbnail to remove it.</p>
+          <p className="muted center" style={{ fontSize: '0.95rem' }}>{t('upload.remove')}</p>
         </div>
         <aside className="stack">
           <FilterPicker value={filter} onChange={setFilter} />
-          <button className="btn big" disabled={photos.length < 4} onClick={next}>Choose a frame →</button>
+          <button className="btn big" disabled={photos.length < 4} onClick={next}>{t('upload.next')}</button>
         </aside>
       </div>
     </section>

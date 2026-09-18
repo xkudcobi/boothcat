@@ -4,16 +4,18 @@ import FilterPicker from '../components/FilterPicker.jsx'
 import { getFilter } from '../lib/filters.js'
 import { store } from '../lib/storage.js'
 import { captureFrame } from '../lib/strip.js'
+import { useI18n } from '../lib/i18n.jsx'
 
 const COUNTDOWN = 3
 const SHOTS = 4
 
 export default function Shoot() {
   const nav = useNavigate()
+  const { t } = useI18n()
   const videoRef = useRef(null)
   const streamRef = useRef(null)
   const [ready, setReady] = useState(false)
-  const [error, setError] = useState('')
+  const [blocked, setBlocked] = useState(false)
   const [filter, setFilter] = useState(() => store.getFilter())
   const [photos, setPhotos] = useState([])
   const [count, setCount] = useState(null) // number shown in the viewfinder
@@ -27,17 +29,20 @@ export default function Shoot() {
     navigator.mediaDevices
       ?.getUserMedia({ video: { facingMode: 'user', width: { ideal: 1280 }, height: { ideal: 960 } }, audio: false })
       .then((stream) => {
-        if (!active) return stream.getTracks().forEach((t) => t.stop())
+        if (!active) {
+          stream.getTracks().forEach((track) => track.stop())
+          return
+        }
         streamRef.current = stream
         if (videoRef.current) {
           videoRef.current.srcObject = stream
           videoRef.current.onloadedmetadata = () => setReady(true)
         }
       })
-      .catch(() => setError('Camera access was blocked. Allow it in your browser, or upload photos instead.'))
+      .catch(() => setBlocked(true))
     return () => {
       active = false
-      streamRef.current?.getTracks().forEach((t) => t.stop())
+      streamRef.current?.getTracks().forEach((track) => track.stop())
     }
   }, [])
 
@@ -90,37 +95,37 @@ export default function Shoot() {
 
   return (
     <section className="container page">
-      <h1 className="center">Strike a <em>pose</em></h1>
+      <h1 className="center">{t('shoot.titleA')} <em>{t('shoot.titleB')}</em></h1>
       <div className="booth">
         <div className="stack">
           <div className="viewfinder">
             <video ref={videoRef} autoPlay playsInline muted style={{ filter: getFilter(filter).css }} />
             {count != null && <div className="count">{count}</div>}
             <div className={`flash ${flash ? 'on' : ''}`} />
-            {error && <div className="msg"><p>{error}</p></div>}
-            {!error && !ready && <div className="msg"><p>Waking up the camera…</p></div>}
+            {blocked && <div className="msg"><p>{t('shoot.blocked')}</p></div>}
+            {!blocked && !ready && <div className="msg"><p>{t('shoot.waking')}</p></div>}
           </div>
           <div className="thumbs">
             {[0, 1, 2, 3].map((i) => (
               <div key={i} className="slot">
-                {photos[i] ? <img src={photos[i]} alt={`Shot ${i + 1}`} style={{ filter: getFilter(filter).css }} /> : `#${i + 1}`}
+                {photos[i] ? <img src={photos[i]} alt={`#${i + 1}`} style={{ filter: getFilter(filter).css }} /> : `#${i + 1}`}
               </div>
             ))}
           </div>
           <div className="row center">
             {!done && (
               <button className="btn big" onClick={runSession} disabled={!ready || running}>
-                {running ? 'Smile…' : 'Start countdown'}
+                {running ? t('shoot.smile') : t('shoot.start')}
               </button>
             )}
-            {running && <button className="btn ghost" onClick={retake}>Cancel</button>}
+            {running && <button className="btn ghost" onClick={retake}>{t('shoot.cancel')}</button>}
             {done && (
               <>
-                <button className="btn ghost" onClick={retake}>Retake</button>
-                <button className="btn big" onClick={next}>Choose a frame →</button>
+                <button className="btn ghost" onClick={retake}>{t('shoot.retake')}</button>
+                <button className="btn big" onClick={next}>{t('shoot.next')}</button>
               </>
             )}
-            {error && <button className="btn ghost" onClick={() => nav('/upload')}>Upload instead</button>}
+            {blocked && <button className="btn ghost" onClick={() => nav('/upload')}>{t('shoot.uploadInstead')}</button>}
           </div>
         </div>
         <aside>

@@ -3,9 +3,11 @@ import { Link, useNavigate } from 'react-router-dom'
 import { store } from '../lib/storage.js'
 import { renderStrip } from '../lib/strip.js'
 import { FRAMES } from '../lib/frames.js'
+import { useI18n } from '../lib/i18n.jsx'
 
 export default function Print() {
   const nav = useNavigate()
+  const { t, lang } = useI18n()
   const [caption, setCaption] = useState('boothcat')
   const [showDate, setShowDate] = useState(true)
   const [frame, setFrame] = useState(() => store.getFrame())
@@ -22,7 +24,7 @@ export default function Print() {
     setRendering(true)
     // Wait for web fonts so the caption renders with the right face.
     ;(document.fonts?.ready ?? Promise.resolve())
-      .then(() => renderStrip(photos, { filter: store.getFilter(), frame, caption, showDate }))
+      .then(() => renderStrip(photos, { filter: store.getFilter(), frame, caption, showDate, locale: lang }))
       .then((url) => {
         if (!live) return
         setStrip(url)
@@ -30,7 +32,7 @@ export default function Print() {
       })
       .finally(() => live && setRendering(false))
     return () => { live = false }
-  }, [caption, showDate, frame, nav])
+  }, [caption, showDate, frame, lang, nav])
 
   function changeFrame(id) {
     setFrame(id)
@@ -49,7 +51,7 @@ export default function Print() {
       const blob = await (await fetch(strip)).blob()
       const file = new File([blob], 'boothcat.jpg', { type: 'image/jpeg' })
       if (navigator.canShare?.({ files: [file] })) {
-        await navigator.share({ files: [file], title: 'My boothcat strip' })
+        await navigator.share({ files: [file], title: 'boothcat' })
       } else download()
     } catch {
       /* user cancelled */
@@ -58,30 +60,30 @@ export default function Print() {
 
   return (
     <section className="container page">
-      <h1 className="center">Here's your <em>strip</em></h1>
+      <h1 className="center">{t('print.titleA')} <em>{t('print.titleB')}</em></h1>
       <div className="result">
         <div>
           {strip ? (
-            <img src={strip} alt="Your photo strip" className="strip-preview" style={{ opacity: rendering ? 0.6 : 1 }} />
+            <img src={strip} alt={t('print.alt')} className="strip-preview" style={{ opacity: rendering ? 0.6 : 1 }} />
           ) : (
-            <div className="strip-preview" style={{ aspectRatio: '600 / 1832', display: 'grid', placeItems: 'center' }}>Developing…</div>
+            <div className="strip-preview" style={{ aspectRatio: '600 / 1832', display: 'grid', placeItems: 'center' }}>{t('print.developing')}</div>
           )}
         </div>
         <div className="stack card" style={{ width: '100%' }}>
           <div className="field">
-            <label htmlFor="caption">Caption</label>
+            <label htmlFor="caption">{t('print.caption')}</label>
             <input id="caption" type="text" maxLength={32} value={caption} onChange={(e) => setCaption(e.target.value)} />
           </div>
           <label className="row" style={{ gap: 8 }}>
-            <input type="checkbox" checked={showDate} onChange={(e) => setShowDate(e.target.checked)} /> Print today's date
+            <input type="checkbox" checked={showDate} onChange={(e) => setShowDate(e.target.checked)} /> {t('print.date')}
           </label>
           <div className="field">
-            <label>Frame</label>
+            <label>{t('print.frame')}</label>
             <div className="row">
               {FRAMES.map((f) => (
                 <button
                   key={f.id}
-                  title={f.name}
+                  title={t(`frames.names.${f.id}`)}
                   onClick={() => changeFrame(f.id)}
                   style={{
                     width: 34, height: 34, borderRadius: 8, background: f.bg,
@@ -93,16 +95,14 @@ export default function Print() {
             </div>
           </div>
           <div className="row">
-            <button className="btn big" onClick={download} disabled={!strip}>Download JPEG</button>
-            <button className="btn ghost" onClick={share} disabled={!strip}>Share</button>
+            <button className="btn big" onClick={download} disabled={!strip}>{t('print.download')}</button>
+            <button className="btn ghost" onClick={share} disabled={!strip}>{t('print.share')}</button>
           </div>
           <div className="row">
-            <Link to="/frames" className="btn ghost">← Frames</Link>
-            <Link to="/start" className="btn ghost" onClick={() => store.clearSession()}>Start over</Link>
+            <Link to="/frames" className="btn ghost">{t('print.toFrames')}</Link>
+            <Link to="/start" className="btn ghost" onClick={() => store.clearSession()}>{t('common.startOver')}</Link>
           </div>
-          <p className="muted" style={{ fontSize: '0.95rem', margin: 0 }}>
-            Tip: print at 2×6 inches (5×15 cm) for the classic booth size.
-          </p>
+          <p className="muted" style={{ fontSize: '0.95rem', margin: 0 }}>{t('print.tip')}</p>
         </div>
       </div>
     </section>
