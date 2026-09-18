@@ -14,7 +14,10 @@ export default function Print() {
 
   useEffect(() => {
     const photos = store.getPhotos()
-    if (photos.length < 4) return nav('/start', { replace: true })
+    if (photos.length < 4) {
+      nav('/start', { replace: true })
+      return
+    }
     let live = true
     setRendering(true)
     // Wait for web fonts so the caption renders with the right face.
