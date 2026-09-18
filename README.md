@@ -2,6 +2,8 @@
 
 > **Work in progress — the look is temporary.** The current sketchbook design is a functional first pass, not the final visual direction. I am reworking the whole interface into a more polished, more interactive experience: richer animations, a live strip preview while you shoot, drag-and-drop photo ordering, and custom frame editing. The booth logic underneath (camera, filters, canvas rendering) is stable; the UI on top of it will change a lot.
 
+**Live:** https://xkudcobi.github.io/boothcat/
+
 A photo booth that runs entirely in your browser. Snap four photos with your webcam (or upload your own), pick a filter and a frame, and download a print-ready strip. No server, no accounts, no tracking.
 
 ## Features
@@ -56,7 +58,7 @@ src/
 
 ## Deploying
 
-It's a static site. Any host that serves `dist/` works; make sure unknown paths fall back to `index.html` for client-side routing (`public/_redirects` handles this on Netlify/Cloudflare Pages, `vercel.json` on Vercel).
+Pushes to `main` are deployed to GitHub Pages by `.github/workflows/deploy.yml`. It's a static site, so any other host works too: `dist/` works; make sure unknown paths fall back to `index.html` for client-side routing (`public/_redirects` handles this on Netlify/Cloudflare Pages, `vercel.json` on Vercel).
 
 ## License
 

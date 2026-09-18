@@ -10,7 +10,7 @@ import { About, Contact, Faq, Features, NotFound, Privacy } from './pages/Info.j
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <Routes>
         <Route element={<Layout />}>
           <Route index element={<Home />} />
