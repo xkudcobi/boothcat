@@ -1,5 +1,5 @@
 // Small, original inline SVG illustrations. All drawn with basic shapes so
-// they inherit `currentColor` and work in both themes.
+// they inherit `currentColor`.
 
 const stroke = { fill: 'none', stroke: 'currentColor', strokeWidth: 3, strokeLinecap: 'round', strokeLinejoin: 'round' }
 

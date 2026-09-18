@@ -1,5 +1,5 @@
 /* ------------------------------------------------------------------
-   Base tokens. Each theme overrides these on [data-theme=...].
+   Base tokens. sketch.css refines them for the notebook look.
    ------------------------------------------------------------------ */
 :root {
   --bg: #fff7e6;
@@ -69,15 +69,6 @@ p { margin: 0 0 1em; }
   font-size: 1rem;
 }
 .nav a.active, .nav a:hover { background: var(--accent); }
-.theme-switch {
-  display: inline-flex; border: var(--border-w) solid var(--line);
-  border-radius: var(--btn-radius); overflow: hidden; background: var(--card);
-}
-.theme-switch button {
-  border: 0; background: transparent; padding: 6px 12px; font-size: 0.9rem;
-  font-family: var(--font-mono);
-}
-.theme-switch button.on { background: var(--ink); color: var(--bg); }
 .site-footer {
   border-top: var(--border-w) solid var(--line);
   padding: 24px 0; font-size: 0.95rem;

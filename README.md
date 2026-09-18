@@ -1,5 +1,7 @@
 # boothcat
 
+> **Work in progress — the look is temporary.** The current sketchbook design is a functional first pass, not the final visual direction. I am reworking the whole interface into a more polished, more interactive experience: richer animations, a live strip preview while you shoot, drag-and-drop photo ordering, and custom frame editing. The booth logic underneath (camera, filters, canvas rendering) is stable; the UI on top of it will change a lot.
+
 A photo booth that runs entirely in your browser. Snap four photos with your webcam (or upload your own), pick a filter and a frame, and download a print-ready strip. No server, no accounts, no tracking.
 
 ## Features
@@ -10,7 +12,6 @@ A photo booth that runs entirely in your browser. Snap four photos with your web
 - **10 frames** — drawn procedurally on the canvas (hearts, stars, doodles, film sprockets, a cat…), no image assets
 - **Caption + date** — printed on the strip footer
 - **Print-ready** — 600×1832 JPEG, the proportions of a classic 2×6″ strip
-- **Two visual themes** — *Sketchbook* (notebook paper, hand-drawn) and *Retro film* (darkroom, polaroid), switchable from the header
 - **Private** — photos live in `localStorage` only; nothing is uploaded
 
 ## Stack
@@ -37,13 +38,21 @@ src/
     filters.js    filter presets
     frames.js     frame presets
     storage.js    localStorage wrapper
-    theme.jsx     theme context + persistence
   components/     layout, shared UI, inline SVG illustrations
   pages/          one file per route
   styles/
     global.css    base tokens + component styles
-    themes.css    the two theme overrides
+    sketch.css    the notebook look
 ```
+
+## Roadmap
+
+- [ ] Redesigned, more interactive UI (see note above)
+- [ ] Live strip preview during the shoot
+- [ ] Reorder photos by drag and drop
+- [ ] Custom frame colours and stickers
+- [ ] More strip layouts (2×2, single polaroid)
+- [ ] PWA / offline install
 
 ## Deploying
 

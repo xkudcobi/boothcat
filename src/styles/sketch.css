@@ -1,0 +1,42 @@
+/* ==================================================================
+   Theme: notebook paper, hand-drawn ink lines, marker
+   yellow highlights, wobbly borders. Friendly and playful.
+   ================================================================== */
+:root {
+  --bg: #fff8e7;
+  --bg-2: #fffdf7;
+  --ink: #1d1a17;
+  --ink-2: #6a625a;
+  --accent: #ffd166;
+  --accent-2: #ff8fab;
+  --line: #1d1a17;
+  --card: #fffdf7;
+  --radius: 16px;
+  --shadow: 4px 4px 0 var(--line);
+  --font-display: 'Caveat', cursive;
+  --font-body: 'Patrick Hand', cursive;
+  --border-w: 2.5px;
+  --btn-radius: 999px;
+}
+body {
+  /* ruled notebook lines */
+  background-image:
+    linear-gradient(rgba(29,26,23,0.06) 1px, transparent 1px);
+  background-size: 100% 32px;
+}
+.card,
+.btn,
+.viewfinder,
+.frame-tile,
+.choice {
+  /* slightly uneven corners = hand-drawn feel */
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+}
+.btn { border-radius: 999px; }
+.site-header { border-bottom-style: dashed; }
+h1 em,
+h2 em {
+  font-style: normal;
+  background: linear-gradient(transparent 55%, var(--accent) 55%, var(--accent) 92%, transparent 92%);
+  padding: 0 4px;
+}

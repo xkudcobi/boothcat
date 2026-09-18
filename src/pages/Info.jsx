@@ -38,7 +38,6 @@ export function Faq() {
     ['The camera does not turn on.', 'Your browser needs permission to use the camera. Look for the camera icon in the address bar, allow access, and reload. Camera access also requires HTTPS (or localhost).'],
     ['What size should I print at?', 'The strip has 2:6 proportions. Print it at 2×6 inches or 5×15 cm; most photo labs offer this as a "photo strip" option.'],
     ['Can I change the filter after shooting?', 'The filter chosen while shooting is baked into the final render. Press "Retake" to shoot again with a different one; the frame and caption can be changed at any time.'],
-    ['Why does the "Sketchbook / Retro film" switch exist?', 'It swaps the visual theme of the site. Both themes produce the same strip; pick whichever you like looking at.'],
   ]
   return (
     <section className="container page">
@@ -71,7 +70,7 @@ export function About() {
           <li>React 19 and React Router 7</li>
           <li>Vite</li>
           <li>The Canvas 2D and MediaDevices web APIs</li>
-          <li>Hand-written CSS with two switchable themes</li>
+          <li>Hand-written CSS with a sketchbook look</li>
         </ul>
         <h2>Open source</h2>
         <p>The code is published on GitHub under the MIT licence. Bug reports and pull requests are welcome.</p>
@@ -104,8 +103,6 @@ export function Privacy() {
         <p>Camera access is requested only on the shooting page and released as soon as you leave it.</p>
         <h2>Tracking</h2>
         <p>There are no analytics scripts, advertising tags, or cookies. Fonts are loaded from Google Fonts, which may log the request as any web font host would.</p>
-        <h2>Theme preference</h2>
-        <p>Your choice of visual theme is remembered in <code>localStorage</code> so the site looks the same next time.</p>
       </div>
     </section>
   )

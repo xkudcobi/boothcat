@@ -1,7 +1,6 @@
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import { useEffect } from 'react'
 import { CatLogo } from './Art.jsx'
-import { THEMES, useTheme } from '../lib/theme.jsx'
 
 const NAV = [
   ['/', 'Home'],
@@ -10,19 +9,6 @@ const NAV = [
   ['/about', 'About'],
   ['/contact', 'Contact'],
 ]
-
-function ThemeSwitch() {
-  const { theme, setTheme } = useTheme()
-  return (
-    <div className="theme-switch" role="group" aria-label="Visual theme">
-      {THEMES.map((t) => (
-        <button key={t.id} className={theme === t.id ? 'on' : ''} onClick={() => setTheme(t.id)}>
-          {t.label}
-        </button>
-      ))}
-    </div>
-  )
-}
 
 export default function Layout() {
   const { pathname } = useLocation()
@@ -44,7 +30,6 @@ export default function Layout() {
               </NavLink>
             ))}
           </nav>
-          <ThemeSwitch />
         </div>
       </header>
 
