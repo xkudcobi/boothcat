@@ -1,0 +1,21 @@
+{
+  "name": "boothcat",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Browser-based photo booth: snap, filter, frame and print your own photo strips.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "react-router-dom": "^7.8.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^5.0.0",
+    "vite": "^7.1.0"
+  }
+}
